@@ -99,6 +99,10 @@ jobs:
           cd $GITHUB_WORKSPACE/device_kernel
            echo "[+] Applying rosemary SUSFS fixed patch"
            patch -p1 --fuzz=0 < $GITHUB_WORKSPACE/rosemary_susfs_fixed.patch
+           echo "[+] Applying OmniShield clock_offset (A: clock_gettime syscall)"
+           patch -p1 --fuzz=0 < $GITHUB_WORKSPACE/omni_clock_offset.patch
+           echo "[+] Applying OmniShield clock surfaces (B: /proc/uptime + sysinfo + /proc/stat btime)"
+           patch -p1 --fuzz=0 < $GITHUB_WORKSPACE/omni_clock_surfaces.patch
            echo "[+] Verifying version-spoof patch"
            grep -q "susfs_is_uname_spoof_buffer_set" fs/proc/version.c
            grep -q "susfs_spoof_uname" kernel/utsname_sysctl.c
